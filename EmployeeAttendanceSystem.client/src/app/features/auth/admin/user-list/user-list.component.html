@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="header-area">
+    <h2>Personel Listesi</h2>
+    <a routerLink="/admin/register" class="btn-add">
+      <i class="bi bi-person-plus-fill"></i> Yeni Çalışan
+    </a>
+  </div>
+  
+  @if (isLoading()) {
+    <div class="loading">Yükleniyor...</div>
+  } @else {
+    <div class="table-card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ad Soyad</th>
+            <th>E-posta</th>
+            <th>Departman</th>
+            <th style="text-align: center;">İşlem</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.Id) {
+            <tr>
+              <td>
+                <div class="user-info">
+                  <span>{{ user.Name }} {{ user.Surname }}</span>
+                </div>
+              </td>
+              <td>{{ user.Email }}</td>
+              <td>
+                <span class="badge dept">{{ user.Department || 'Genel' }}</span>
+              </td>
+              <td style="text-align: center;">
+                <div class="action-buttons" style="justify-content: center;">
+                  
+                  <a [routerLink]="['/admin/users/edit', user.Id]" class="btn-icon edit" title="Düzenle">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+  
+                  <button (click)="onDeleteClick(user)" class="btn-icon delete" title="Sil">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                  
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (userToDelete) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <h3>Emin misiniz?</h3>
+      <p>
+        <strong>{{ userToDelete.Name }} {{ userToDelete.Surname }}</strong> adlı kullanıcıyı silmek üzeresiniz.
+        <br>
+        Bu işlem geri alınamaz.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelDelete()">Vazgeç</button>
+        <button class="btn-confirm" (click)="confirmDelete()">Evet, Sil</button>
+      </div>
+    </div>
+  </div>
+}

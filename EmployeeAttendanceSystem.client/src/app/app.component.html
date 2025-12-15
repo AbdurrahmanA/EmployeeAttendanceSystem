@@ -1,0 +1,57 @@
+@if (authService.isLoggedIn()) {
+<header class="app-header">
+  <div class="header-content">
+
+    <div class="first-part">
+      <a routerLink="/dashboard" class="system">
+        <i class="bi bi-laptop"></i>
+        <span>MesaiTakip</span>
+      </a>
+      @if (authService.isAdmin()) {
+      <nav class="nav-links">
+        <a routerLink="/api/report/audit/logs" routerLinkActive="active" class="nav-item">
+          <i class="bi bi-speedometer2"></i> Denetim
+        </a>
+
+
+        <a routerLink="/api/report/admin/all-logs" routerLinkActive="active" class="nav-item">
+          <i class="bi bi-clock"></i>Mesai
+        </a>
+
+        <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+          <i class="bi bi-people-fill"></i> Personel Listesi
+        </a>
+
+        <a routerLink="/admin/register" routerLinkActive="active" class="nav-item">
+          <i class="bi bi-person-add"></i>Yeni Çalışan
+        </a>
+
+      </nav>}
+    </div>
+
+    <div class="username-container">
+      <span class="user-name">
+        {{ authService.currentUser()?.Name }} {{ authService.currentUser()?.Surname }}
+      </span>
+      <span class="divider">|</span>
+      <span class="live-clock">
+        {{ now | date:'HH:mm:ss' }}
+      </span>
+    </div>
+
+    <div class="user-actions">
+      <a routerLink="/profile" class="profile-icon" title="Profilim">
+        <i class="bi bi-person-circle"></i>
+      </a>
+      <button class="header-btn" title="Çıkış Yap" (click)="logout()">
+        <i class="bi bi-door-closed"></i>
+        <span>Çıkış Yap</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+}
+<main [class.main-content]="authService.isLoggedIn()">
+  <router-outlet></router-outlet>
+</main>

@@ -1,0 +1,127 @@
+<div class="report-container">
+
+  <div class="report-header">
+    <h2>Mesai Raporları</h2>
+    <p class="subtitle">Personel giriş-çıkış kayıtlarını görüntüleyin ve indirin.</p>
+  </div>
+
+  <div class="filters-card">
+    <div class="date-inputs">
+      <div class="form-group">
+        <label>Başlangıç Tarihi</label>
+        <input type="date" [value]="startDate()" (change)="onFilterChange($event, startDate)">
+      </div>
+      <div class="form-group">
+        <label>Bitiş Tarihi</label>
+        <input type="date" [value]="endDate()" (change)="onFilterChange($event, endDate)">
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-filter" (click)="loadLogs()" [disabled]="isLoading()">
+        <i class="bi bi-search"></i> Filtrele
+      </button>
+      <button class="btn-download" (click)="downloadReport()" [disabled]="isLoading()">
+        <i class="bi bi-file-earmark-arrow-down"></i> İndir
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+  <div class="alert-error">
+    <i class="bi bi-exclamation-circle"></i> {{ errorMessage() }}
+  </div>
+  }
+
+  @if (isLoading()) {
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <span>Veriler yükleniyor...</span>
+  </div>
+  }
+
+  @if (!isLoading() && logs() && logs().length > 0) {
+  <div class="table-responsive">
+    <table class="attendance-table">
+      <thead>
+        <tr>
+          <th>Personel ID</th>
+          <th>Personel</th>
+          <th>Departman</th>
+          <th>E-posta</th>
+          <th>Giriş Zamanı</th>
+          <th>Çıkış Zamanı</th>
+          <th>Çalışılan</th>
+          <th>Kalan Mesai (9s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (log of logs(); track log.LogID) {
+        <tr>
+
+          <td>{{log.UserId}} </td>
+
+          <td class="font-bold">{{ log.EmployeeInfo.EmployeeName }}</td>
+          <td>{{ log.EmployeeInfo.Department || '-' }}</td>
+          <td class="text-muted">{{ log.EmployeeInfo.Email }}</td>
+
+          <td>
+            <span class="badge in">
+              {{ log.CheckInTime | date:'dd.MM.yyyy HH:mm' }}
+            </span>
+          </td>
+
+          <td>
+            @if (log.CheckOutTime) {
+            <span class="badge out">
+              {{ log.CheckOutTime | date:'dd.MM.yyyy HH:mm' }}
+            </span>
+            } @else {
+            <span class="badge active">Aktif</span>
+            }
+          </td>
+
+          <td>
+            @if (log.DurationHours) {
+            <span class="badge duration">
+              {{ log.DurationHours | number:'1.2-2' }} sa
+            </span>
+            } @else {
+            <span class="text-muted">-</span>
+            }
+          </td>
+
+          <td>
+            @if (log.DurationHours) {
+            @if ((9 - log.DurationHours) > 0) {
+            <span class="badge warning">
+              {{ (9 - log.DurationHours) | number:'1.2-2' }} sa kaldı
+            </span>
+            } @else {
+            <span class="badge success">
+              <i class="bi bi-check-all"></i> Tamamlandı
+            </span>
+            <small class="overtime">
+              (+{{ (log.DurationHours - 9) | number:'1.2-2' }} sa)
+            </small>
+            }
+            } @else {
+            <span class="text-muted">-</span>
+            }
+          </td>
+
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+
+  @if (!isLoading() && (!logs() || logs().length === 0)) {
+  <div class="empty-state">
+    <i class="bi bi-inbox"></i>
+    <p>Kayıt bulunamadı.</p>
+  </div>
+  }
+
+</div>

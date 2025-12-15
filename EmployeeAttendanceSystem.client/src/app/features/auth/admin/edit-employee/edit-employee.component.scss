@@ -1,0 +1,117 @@
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$text-dark: #343a40;
+$border-color: #dee2e6;
+$bg-page: #f4f6f9;
+
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background-color: $bg-page;
+  min-height: calc(100vh - 60px);
+}
+
+.edit-container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
+  height: fit-content;
+
+  h2 {
+    font-size: 1.5rem;
+    color: $text-dark;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      input {
+        padding: 10px 12px;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 1rem;
+        color: $text-dark;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        }
+      }
+
+      &.password-section {
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px dashed $border-color;
+      }
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 10px;
+      text-align: center;
+
+      &.success {
+        background-color: rgba($success-color, 0.1);
+        color: $success-color;
+        border: 1px solid rgba($success-color, 0.2);
+      }
+
+      &.error {
+        background-color: rgba($danger-color, 0.1);
+        color: $danger-color;
+        border: 1px solid rgba($danger-color, 0.2);
+      }
+    }
+
+    button[type="submit"] {
+      margin-top: 15px;
+      padding: 12px;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover:not(:disabled) {
+        background-color: darken($primary-color, 10%);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

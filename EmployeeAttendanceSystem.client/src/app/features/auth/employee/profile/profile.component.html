@@ -1,0 +1,50 @@
+<div class="profile-container">
+    <div class="info-card">
+        <div class="avatar-area">
+            <div class="avatar-circle">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <h3>{{ authService.currentUser()?.Name}} {{ authService.currentUser()?.Surname}}</h3>
+            <span class="role-badge"> Çalışan</span>
+        </div>
+        <div class="details-list">
+            <div class="detail-item">
+                <span class="label"> E-posta</span>
+                <span class="value"> {{authService.currentUser()?.Email}} </span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Departman </span>
+                <span class="value">{{authService.currentUser()?.Department || 'Belirtilmemiş'}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="password-card">
+        <h3>Şifre Değiştir</h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+            <div class="form-group">
+                <label> Mevcut Şifre</label>
+                <input type="password" formControlName="OldPassword" placeholder="******">
+            </div>
+            <div class="form-group">
+                <label> Yeni Şifre</label>
+                <input type="password" formControlName="NewPassword" placeholder="Minimum 6 karakter.">
+            </div>
+            <div class="form-group">
+                <label> Yeni Şifreyi Tekrar</label>
+                <input type="password" formControlName="ConfirmNewPassword" placeholder="*****">
+                @if (passwordForm.errors?.['mismatch'] && passwordForm.get('ConfirmNewPassword')?.touched){
+                <small class="error-text">Şifreler eşleşmiyor.</small>
+                }
+            </div>
+            @if(message()){
+            <div class="alert" [class.success]="isSuccess()" [class.error]="!isSuccess()">
+                {{message()}}
+            </div>
+            }
+            <button type="submit" [disabled]="passwordForm.invalid || isLoading()" class="btn-save">
+                @if(isLoading()){<span>İşleniyor...</span>} @else { <span>Güncelle</span>}
+            </button>
+        </form>
+    </div>
+</div>

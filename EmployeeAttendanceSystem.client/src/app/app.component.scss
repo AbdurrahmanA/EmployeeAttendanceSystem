@@ -1,0 +1,194 @@
+$header-bg: #ffffff;
+$text-color: #333333;
+$icon-color: #555555;
+$border-color: #e0e0e0;
+$hover-bg: #f5f5f5;
+$danger-color: #dc3545;
+$primary-color: #007bff;
+
+:host {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+  background-color: $header-bg;
+  border-bottom: 1px solid $border-color;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  max-width: 100%; 
+  
+  position: relative; 
+}
+
+.first-part {
+  display: flex;
+  align-items: center;
+  gap: 25px; 
+  color: $text-color;
+  user-select: none;
+  
+  .system {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: $text-color;
+    font-weight: 700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    
+    i {
+      font-size: 1.4rem;
+      color: $text-color;
+    }
+    &:hover { opacity: 0.7; }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid $border-color;
+
+    .nav-item {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+
+      i { font-size: 1rem; }
+
+      &:hover { color: #000; }
+      &.active { color: #000; font-weight: 700; }
+    }
+  }
+}
+
+.username-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); 
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #555;
+  white-space: nowrap; 
+
+  .divider {
+    color: #ccc;
+    font-weight: 300;
+  }
+
+  .user-name {
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  .live-clock {
+    font-family: 'Consolas', monospace;
+    font-weight: 500;
+    color: #666;
+  }
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .profile-icon {
+    font-size: 1.4rem;
+    color: $icon-color;
+    cursor: pointer;
+    &:hover { color: #000; }
+  }
+
+  .header-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+    background-color: transparent;
+    padding: 6px 12px;
+    border: 2px solid $border-color;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $text-color;
+    font-weight: 500;
+
+    i { font-size: 1.1rem; color: $icon-color; }
+
+    &:hover {
+      background-color: rgb(240, 240, 240);
+      border-color: #bbb;
+      i { color: black; }
+    }
+    &:active { transform: scale(0.98); }
+  }
+}
+
+
+@media (max-width: 1500px) {
+  .username-container {
+    position: static;
+    transform: none;
+    left: auto;
+
+    margin-left: auto; 
+    
+    margin-right: 20px; 
+  }
+}
+
+
+@media (max-width: 1100px) { 
+  
+  .app-header { height: auto; padding: 10px 15px; }
+  
+  .header-content { 
+    flex-direction: column; 
+    gap: 15px;
+  }
+  
+  .first-part { 
+    flex-direction: column; 
+    gap: 10px; 
+    width: 100%; 
+    justify-content: center;
+  }
+  
+  .nav-links { 
+    border-left: none; 
+    margin-left: 0; 
+    padding-left: 0; 
+    width: 100%; 
+    justify-content: center; 
+  }
+
+  .username-container { 
+    display: none; 
+  }
+  
+  .user-actions { 
+    width: 100%; 
+    justify-content: center; 
+  }
+}
