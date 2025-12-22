@@ -4,12 +4,19 @@ import { environment } from '../../../environments/environment.development';
 import { audit, Observable } from 'rxjs';
 import { AuditLogDto, PaginatedResult } from '../models/audit-log.dto';
 import { UpdateEmployeeDto, EmployeeDto } from '../models/update-employee-dto';
+import * as CryptoJS from 'crypto-js';
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl + '/api';
+
+
+  private hashPassword(password: string): string{
+    if(!password) return "";
+    return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);  
+  }
 
   getAttendanceLogs(startDate?: string, endDate?: string): Observable<any> {
     let params = new HttpParams();
@@ -69,7 +76,13 @@ export class AdminService {
   }
 
   updateUser(id: string, data: UpdateEmployeeDto): Observable<any> {
-    return this.http.put(`${this.apiUrl}/account/update/${id}`, data);
+    const secureData = { ...data };
+
+    if (secureData.Password && secureData.Password.trim() !== '') {
+      secureData.Password = this.hashPassword(secureData.Password);
+    }
+
+    return this.http.put(`${this.apiUrl}/account/update/${id}`, secureData);
   }
   deleteUser(id: string): Observable<any> {
   return this.http.delete(`${this.apiUrl}/account/delete/${id}`);

@@ -6,6 +6,7 @@ import { UserDto } from '../models/user-dto';
 import { finalize, Observable, tap } from 'rxjs';
 import { RegisterDto } from '../models/register-dto';
 import { LoginDto } from '../models/login-dto';
+import * as CryptoJS from 'crypto-js';
 
 const USER_KEY = 'auth-user';
 
@@ -16,31 +17,35 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private router = inject(Router);
-
+  
   private apiUrl = environment.apiUrl + '/api/account';
 
   public currentUser = signal<UserDto | null>(null);
   public isLoggedIn = computed(() => this.currentUser() != null);
   public isAdmin = computed(() => this.currentUser()?.Role === 'Admin');
 
-  constructor() {
+  constructor() { 
     const userJson = localStorage.getItem(USER_KEY);
-    if (userJson) {
+    if(userJson){
       const user = JSON.parse(userJson) as UserDto;
       this.currentUser.set(user);
     }
   }
 
-  refreshCurrentUser(): void{
 
+  private hashPassword(password: string): string {
+    if (!password) return "";
+    return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+  }
+
+  refreshCurrentUser(): void {
     this.http.get<any>(`${this.apiUrl}/profile`).subscribe({
       next:(profileData) => {
         const currentUser = this.currentUser();
-
         if(currentUser){
           const updatedUser : UserDto ={
             ...currentUser,
-            Name:profileData.Name,
+            Name: profileData.Name,
             Surname: profileData.Surname,
             Email : profileData.Email,
             Department : profileData.Department
@@ -49,15 +54,22 @@ export class AuthService {
           localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
         }
       },
-      error : (err) => console.error('Profil yenilenemedi',err)
+      error : (err) => console.error('Profil yenilenemedi', err)
     });
-
   }
 
-  login(loginDto: LoginDto): Observable<UserDto> {
+  login(loginDto: LoginDto) : Observable<UserDto>{
+    
+    const dto = loginDto as any;
+    const rawPassword = dto.password || dto.Password; 
+    const rawEmail = dto.email || dto.Email;
 
+    const secureLoginDto = {
+      Email: rawEmail,
+      Password: this.hashPassword(rawPassword) 
+    };
 
-    return this.http.post<UserDto>(`${this.apiUrl}/login`, loginDto).pipe(
+    return this.http.post<UserDto>(`${this.apiUrl}/login`, secureLoginDto).pipe(
       tap((user: UserDto) => {
         localStorage.setItem(USER_KEY, JSON.stringify(user));
         this.currentUser.set(user);
@@ -65,15 +77,25 @@ export class AuthService {
     );
   }
 
+  register(registerDto: RegisterDto) : Observable<any>{
+    
+    const dto = registerDto as any;
+    const rawPassword = dto.password || dto.Password;
+    
+    const secureRegisterDto = {
+      Name: dto.name || dto.Name,
+      Surname: dto.surname || dto.Surname,
+      Email: dto.email || dto.Email,
+      Department: dto.department || dto.Department,
+      Password: this.hashPassword(rawPassword) 
+    };
 
-  register(registerDto: RegisterDto): Observable<any> {
-
-    return this.http.post(`${this.apiUrl}/register`, registerDto);
+    return this.http.post(`${this.apiUrl}/register`, secureRegisterDto);
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      finalize(() => {
+  logout() : Observable<any>{
+    return this.http.post(`${this.apiUrl}/logout`,{}).pipe(
+      finalize(()=>{
         localStorage.removeItem(USER_KEY);
         this.currentUser.set(null);
         this.router.navigate(['/login']);
@@ -81,13 +103,20 @@ export class AuthService {
     );
   }
 
-  getToken(): string | null {
+  getToken(): string | null{
     return this.currentUser()?.Token ?? null;
   }
-  getProfile(): Observable<any> {
+  
+  getProfile(): Observable<any>{
     return this.http.get(`${this.apiUrl}/profile`);
   }
+  
   changePassword(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/change-password`, data);
+    const secureData = {
+      OldPassword: this.hashPassword(data.OldPassword),
+      NewPassword: this.hashPassword(data.NewPassword),
+      ConfirmNewPassword: this.hashPassword(data.ConfirmNewPassword)
+    };
+    return this.http.post(`${this.apiUrl}/change-password`, secureData);
   }
 }
