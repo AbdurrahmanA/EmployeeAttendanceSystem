@@ -9,10 +9,10 @@
 - [Genel Bakış](#genel-bakis)
 - [Öne Çıkan Özellikler](#one-cikan-ozellikler)
 - [Ekran Görüntüleri](#ekran-goruntuleri)
+- [Proje Yapısı](#proje-yapisi)
 - [Kullanılan Teknolojiler](#kullanilan-teknolojiler)
 - [Kurulum ve Çalıştırma](#kurulum)
 - [Varsayılan Giriş Bilgileri](#giris-bilgileri)
-- [Proje Yapısı](#proje-yapisi)
 
 ---
 
@@ -64,92 +64,6 @@ Bu proje, şirket personelinin günlük mesai giriş-çıkış saatlerini takip 
 </p>
 
 ---
-
-## 🧰 Kullanılan Teknolojiler <a id="kullanilan-teknolojiler"></a>
-
-###  Backend
-- C# / **.NET 8 Web API**
-- Entity Framework Core
-- MSSQL Server
-- ASP.NET Core Identity
-- JWT Authentication
-- EPPlus (Excel İşlemleri)
-- Swagger 
-
-###  Frontend
-- **Angular 17+**
-- TypeScript
-- SCSS (SASS)
-- RxJS
-- Bootstrap Icons
-
----
-
-## 💻 Kurulum ve Çalıştırma <a id="kurulum"></a>
-
-### 1. Ön Gereksinimler
-- .NET 8 SDK
-- Node.js
-- Angular CLI
-- SQL Server
-
----
-
-### 2. Backend Kurulumu
-
-1.Repoyu klonlayın ve backend klasörüne gidin:
-```bash
-git clone https://github.com/KULLANICI_ADI/REPO_ADI.git
-cd EmployeeAttendanceSystem.Server
-```
-
-2.`appsettings.Development.json` dosyasında **ConnectionStrings** alanını güncelleyin.
-
-3.Veritabanını oluşturun ve varsayılan verileri (Admin kullanıcısı) yükleyin:
-
-```bash
-dotnet ef database update
-```
-4.API'yi ayağa kaldırın:
-```bash
-dotnet watch run
-```
-
-API adresi: https://localhost:7209 (Swagger: /swagger)`
-
----
-
-### 3. Frontend Kurulumu
-
-1.Yeni bir terminal açın ve frontend klasörüne gidin:
-```bash
-cd EmployeeAttendanceSystem.client
-```
-2.Bağımlılıkları yükleyin:
-```
-npm install
-```
-3.Uygulamayı başlatın:
-```
-ng serve --open
-```
-
-
-
-🌐 Uygulama: `http://localhost:4200`
-
----
-
-## 🔑 Varsayılan Giriş Bilgileri <a id="giris-bilgileri"></a>
-> Veritabanı oluşturulduğunda , sisteme otomatik olarak bir Admin kullanıcısı eklenir:
-
-| Rol | E-Posta | Şifre |
-|----|--------|------|
-| Admin | admin@sirket.com | Admin123! |
-
-
----
-
 ## 🗂️ Proje Yapısı <a id="proje-yapisi"></a>
 
 ```text
@@ -218,7 +132,95 @@ EmployeeAttendanceSystem
 └── .gitignore
 
 ```
+---
+
+## 🧰 Kullanılan Teknolojiler <a id="kullanilan-teknolojiler"></a>
+
+###  Backend
+- C# / **.NET 8 Web API**
+- Entity Framework Core
+- MSSQL Server
+- ASP.NET Core Identity
+- JWT Authentication
+- EPPlus (Excel İşlemleri)
+- Swagger 
+
+###  Frontend
+- **Angular 17+**
+- TypeScript
+- SCSS (SASS)
+- RxJS
+- Bootstrap Icons
 
 ---
+
+## 💻 Kurulum ve Çalıştırma <a id="kurulum"></a>
+
+### 1. Ön Gereksinimler
+- .NET 8 SDK
+- Node.js
+- Angular CLI
+- SQL Server
+
+---
+
+## 🔑 Varsayılan Giriş Bilgileri <a id="giris-bilgileri"></a>
+> Veritabanı oluşturulduğunda , sisteme otomatik olarak bir Admin kullanıcısı eklenir:
+
+| Rol | E-Posta | Şifre |
+|----|--------|------|
+| Admin | admin@sirket.com | Admin123! |
+
+
+---
+
+
+
+### 2. Backend Kurulumu
+
+1.Repoyu klonlayın ve backend klasörüne gidin:
+```bash
+git clone https://github.com/KULLANICI_ADI/REPO_ADI.git
+cd EmployeeAttendanceSystem.Server
+```
+
+2.`appsettings.Development.json` dosyasında **ConnectionStrings** alanını güncelleyin.
+
+3.Veritabanını oluşturun ve varsayılan verileri (Admin kullanıcısı) yükleyin:
+
+```bash
+dotnet ef database update
+```
+4.API'yi ayağa kaldırın:
+```bash
+dotnet watch run
+```
+
+API adresi: https://localhost:7209 (Swagger: /swagger)`
+
+---
+
+### 3. Frontend Kurulumu
+
+1.Yeni bir terminal açın ve frontend klasörüne gidin:
+```bash
+cd EmployeeAttendanceSystem.client
+```
+2.Bağımlılıkları yükleyin:
+```
+npm install
+```
+3.Uygulamayı başlatın:
+```
+ng serve --open
+```
+
+
+
+🌐 Uygulama: `http://localhost:4200`
+
+---
+
+
 
 
