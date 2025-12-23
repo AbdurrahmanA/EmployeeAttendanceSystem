@@ -50,7 +50,7 @@ Bu proje, şirket personelinin günlük mesai giriş-çıkış saatlerini takip 
 ## 🖼️ Ekran Görüntüleri <a id="ekran-goruntuleri"></a>
 
 <p align="center">
-  <img src="screenshots/login.png" width="45%" />
+  <img src="screenshots/Login.png" width="45%" />
   <img src="screenshots/Session.png" width="45%" />
 </p>
 
