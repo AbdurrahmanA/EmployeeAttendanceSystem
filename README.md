@@ -179,8 +179,8 @@ EmployeeAttendanceSystem
 
 1.Repoyu klonlayın ve backend klasörüne gidin:
 ```bash
-git clone https://github.com/KULLANICI_ADI/REPO_ADI.git
-cd EmployeeAttendanceSystem.Server
+git clone https://github.com/AbdurrahmanA/EmployeeAttendanceSystem.git
+cd EmployeeAttendanceSystem/EmployeeAttendanceSystem.Server
 ```
 
 2.`appsettings.Development.json` dosyasında **ConnectionStrings** alanını güncelleyin.
