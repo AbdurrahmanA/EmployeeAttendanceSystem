@@ -143,7 +143,6 @@ EmployeeAttendanceSystem
 - ASP.NET Core Identity
 - JWT Authentication
 - EPPlus (Excel İşlemleri)
-- Swagger 
 
 ###  Frontend
 - **Angular 17+**
